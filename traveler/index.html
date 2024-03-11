@@ -75,17 +75,9 @@
 				<div class="col-xs-8 text-right menu-1">
 					<ul>
 						<li><a href="destination.html">Destination</a></li>
-						<li class="has-dropdown">
-							<a href="#">Travel</a>
-							<ul class="dropdown">
-								<li><a href="#">Europe</a></li>
-								<li><a href="#">Asia</a></li>
-								<li><a href="#">America</a></li>
-								<li><a href="#">Canada</a></li>
-							</ul>
-						</li>
+						<li><a href="bilet.html">Seferler</a></li>
 						<li><a href="iletisim.html">İletişim</a></li>
-						<li><a href="#" onclick="openModal()">Giriş</a></li>
+						<li><a href="#" onclick="openLoginModal()">Giriş</a></li>
 
 						
 					</ul>	
@@ -95,30 +87,89 @@
 					<!-- Modal İçeriği -->
 					<div class="form-wrap">
 					<div class="modal-content">
-						<span class="close" onclick="closeModal()">&times;</span>
+						<span class="close" onclick="closeLoginModal()">&times;</span>
 						<h2 >Üye Girişi</h2>
-						<form>
-							<label for="username">Kullanıcı Adı:</label>
-							<input type="text" id="username" name="username"><br><br>
+						<form id="loginForm" onsubmit="return validateForm()">
+							<label for="email">E-posta:</label>
+							<input type="email" id="email" name="email"><br><br>
 							<label for="password">Şifre:</label>
 							<input type="password" id="password" name="password"><br><br>
 							<input type="submit" value="Giriş Yap">
 						</form>
-						<p>Henüz üye değil misiniz? <a href="#" onclick="openModal()">Üye Ol</a></p>
+						
+						<script>
+							function validateForm() {
+								var email = document.getElementById("email").value;
+								if (!email.includes('@')) {
+									alert("Lütfen geçerli bir e-posta adresi giriniz.");
+									return false;
+								}
+								return true;
+							}
+						</script>
+						
+						<p>Henüz üye değil misiniz? <a href="#" onclick="closeLoginModal(); openRegisterModal()">Üye Ol</a></p>
 					</div>
 				</div>
 				</div>
-				
+				<div id="registerModal" class="modal">
+					<div class="modal-content">
+						<span class="close" onclick="closeRegisterModal()">&times;</span>
+						<h2>Üye Ol</h2>
+						<form id="registerForm" onsubmit="return validateRegisterForm()">
+							<label for="name">Ad Soyad:</label>
+							<input type="text" id="name" name="name"><br><br>
+							<label for="phone">Cep Telefonu:</label>
+                            <input type="text" id="phone" name="phone"><br><br>
+                            <label for="tc">TC Kimlik No:</label>
+                            <input type="text" id="tc" name="tc"><br><br>
+							<label for="birthdate">Doğum Tarihi:</label>
+            <input type="date" id="birthdate" name="birthdate"><br><br>
+            <label for="gender">Cinsiyet:</label>
+            <select id="gender" name="gender">
+                <option value="male">Erkek</option>
+                <option value="female">Kadın</option>
+                <option value="other">Diğer</option>
+            </select><br><br>
+							<label for="email">E-posta:</label>
+							<input type="email" id="registerEmail" name="email"><br><br>
+							<label for="password">Şifre:</label>
+							<input type="password" id="registerPassword" name="password"><br><br>
+							<input type="submit" value="Kayıt Ol">
+						</form>
+						<p>Zaten üye misiniz? <a href="#" onclick="closeRegisterModal(); openLoginModal()">Giriş Yap</a></p>
+					</div>
+				</div>
+
 				<script>
 					// Modalı açan fonksiyon
-					function openModal() {
+					function openLoginModal() {
 						document.getElementById("myModal").style.display = "block";
 					}
 				
 					// Modalı kapatan fonksiyon
-					function closeModal() {
+					function closeLoginModal() {
 						document.getElementById("myModal").style.display = "none";
 					}
+					
+    // Üye Ol Modalı açan fonksiyon
+    function openRegisterModal() {
+        document.getElementById("registerModal").style.display = "block";
+    }
+
+    // Üye Ol Modalı kapatan fonksiyon
+    function closeRegisterModal() {
+        document.getElementById("registerModal").style.display = "none";
+    }
+	function validateRegisterForm() {
+        // İhtiyacınıza göre diğer alanları da doğrulayabilirsiniz
+        var email = document.getElementById("registerEmail").value;
+        if (!email.includes('@')) {
+            alert("Lütfen geçerli bir e-posta adresi giriniz.");
+            return false;
+        }
+        return true;
+    }
 				</script>
 			</div>
 			
@@ -137,99 +188,90 @@
 							<h1>Türkiye'nin En Uygun Otobüs Biletleri</h1>	
 						</div>
 									
-									    <!-- obilet basla -->
-
-    <div id="search-containers">
-        <form id="search" class="bus js" autocomplete="off">
-            <div class="origin location group">
-            <svg class="spin icon"><use link:href="#loading-symbol" xlink:href="#loading-symbol"></use></svg>
-            <div class="input-group">
-            <label for="input-group">Nereden</label>
-            <ob-select id="origin" template="#location-template">
-            <input id="origin-input" type="search" data-placeholder="İl veya ilçe adı yazın" placeholder="İl veya ilçe adı yazın">
-            <div class="display">
-            <span class="text">İstanbul Avrupa</span>
-            </div>
-            
-            <button type="button" aria-label="select-close-button" class="close" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" viewBox="0 0 54.68 32.89"><path d="M1.7,23.27,24.32,1.44A4.7,4.7,0,0,1,31,1.32l.21.22L52.93,24c2,2,2.49,4.67.4,6.62l-.84.82c-1.79,1.7-3.79,2-5.46.25C41.73,26.18,36.36,20.56,31,15a5,5,0,0,0-6.86-.1C18.51,20.29,13,25.75,7.35,31.13c-1.51,1.76-3.65,1.35-5.28-.41l-.82-.84c-2-2-1.42-4.65.43-6.61Z"></path></svg></button><button type="button" aria-label="select-open-button" class="open" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" viewBox="0 0 54.68 32.896"><path d="M53,9.62,30.38,31.45a4.7,4.7,0,0,1-6.86-.1L1.77,8.87c-2-2-2.49-4.67-.4-6.62l.84-.82C4-.27,6-.58,7.67,1.18c5.3,5.53,10.67,11.15,16,16.69a5,5,0,0,0,6.86.1C36.19,12.6,41.73,7.14,47.35,1.76,48.86,0,51,.41,52.63,2.17l.82.84c2,2,1.42,4.65-.43,6.61Z"></path></svg></button><div class="results"><div class="state"></div> <ul>  <li class="item" data-value="349">   <span class="location">İstanbul Avrupa&nbsp;&nbsp;&nbsp;</span>   </li>  </ul></div></ob-select>
-            </div>
-            <button id="swap" type="button" tabindex="-1" aria-label="Kalkış ve Varış Şehirlerini Değiştir">
-            <svg><use link:href="#swap-switch-symbol" xlink:href="#swap-switch-symbol"></use></svg>
-            </button>
-            </div>
-            <div class="destination location group">
-            <svg class="spin icon"><use link:href="#loading-symbol" xlink:href="#loading-symbol"></use></svg>
-            <div class="input-group">
-            <label for="destination-input">Nereye</label>
-            <ob-select id="destination" template="#location-template">
-            <input id="destination-input" type="search" data-placeholder="İl veya ilçe adı yazın" placeholder="İl veya ilçe adı yazın">
-            <div class="display">
-            <span class="text">Ankara</span>
-            </div>
-            
-            <button type="button" aria-label="select-close-button" class="close" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" viewBox="0 0 54.68 32.89"><path d="M1.7,23.27,24.32,1.44A4.7,4.7,0,0,1,31,1.32l.21.22L52.93,24c2,2,2.49,4.67.4,6.62l-.84.82c-1.79,1.7-3.79,2-5.46.25C41.73,26.18,36.36,20.56,31,15a5,5,0,0,0-6.86-.1C18.51,20.29,13,25.75,7.35,31.13c-1.51,1.76-3.65,1.35-5.28-.41l-.82-.84c-2-2-1.42-4.65.43-6.61Z"></path></svg></button><button type="button" aria-label="select-open-button" class="open" tabindex="-1"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" baseProfile="full" viewBox="0 0 54.68 32.896"><path d="M53,9.62,30.38,31.45a4.7,4.7,0,0,1-6.86-.1L1.77,8.87c-2-2-2.49-4.67-.4-6.62l.84-.82C4-.27,6-.58,7.67,1.18c5.3,5.53,10.67,11.15,16,16.69a5,5,0,0,0,6.86.1C36.19,12.6,41.73,7.14,47.35,1.76,48.86,0,51,.41,52.63,2.17l.82.84c2,2,1.42,4.65-.43,6.61Z"></path></svg></button><div class="results"><div class="state"></div> <ul>  <li class="item" data-value="356">   <span class="location">Ankara&nbsp;&nbsp;&nbsp;</span>   </li>  </ul></div></ob-select>
-            </div>
-            </div>
-            <div class="departure group">
-            <svg class="spin icon"><use link:href="#loading-symbol" xlink:href="#loading-symbol"></use></svg>
-            <div class="input-group">
-            <label for="departure-input">Gidiş Tarihi</label>
-            <ob-datepicker id="departure" specials="" speciallist="" double="">
-            <input id="departure-input" type="hidden" value="6 Mart 2024 Çarşamba">
-            <div class="display">
-            <div class="info">
-            <span class="day">6</span>
-            <span class="month">Mar</span>
-            </div>
-            <div class="weekday">Çarşamba</div>
-            </div>
-            <div class="arrow-container"></div>
-            </ob-datepicker>
-            </div>
-            </div>
-            <div class="time">
-            <label class="radio">
-            <input type="radio" data-event-category="Main Page" data-event-action="Bus Search" data-event-label="Clicked Today" name="time" id="today">
-            <span>Bugün</span>
-            </label>
-            <label class="radio">
-            <input type="radio" data-event-category="Main Page" data-event-action="Bus Search" data-event-label="Clicked Tomorrow" name="time" id="tomorrow" class="active">
-            <span> Yarın</span>
-            </label>
-            </div>
-            <button id="search-button" class="has-icon right" type="submit" tabindex="-1">
-            Otobüs Bileti Ara
-            </button>
-            <script id="location-template" type="text/template">
-                <ul>
-                    {{~it :b}}
-                    <li class="item" data-value="{{=b.value}}">
-                        {{~b.text.split("-") :text :index}}
-                        {{?index == 0}}
-                        <span class="location">{{=text}}&nbsp;&nbsp;&nbsp;</span>
-                        {{??}}
-                        <span class="cityAndCountry">{{=text}}</span>
-                        {{?}}
-                        {{~}}
-                    </li>
-                    {{~}}
-                </ul>
-            </script>
-            </form>
-    
-    </div>
-    <!-- obilet bitti -->
+						<div id="context" class="context">
+							<div class="field">
+							  <label for="nerden">Nereden:</label>
+							  <select id="nerden">
+								<option value="Ankara">Ankara</option>
+								<option value="Istanbul">Istanbul</option>
+								<option value="Antalya">Antalya</option>
+								<option value="Izmir">Izmir</option>
+							  </select>
+							</div>
+							<div class="field">
+							  <label for="nereye">Nereye:</label>
+							  <select id="nereye">
+								<option value="Istanbul">Istanbul </option>
+								<option value="Ankara">Ankara</option>
+								<option value="Antalya">Antalya</option>
+								<option value="Izmir">Izmir</option>
+							  </select>
+							</div>
+							<div class="field">
+							  <label for="tarih">Gidiş Tarihi:</label>
+							  <input type="date" id="tarih" min="2023-03-12">
+							</div>
+							<div class="field">
+							  <label for="tur">Sefer Tipi:</label>
+							  <select id="tur">
+								<option value="Gidiş">Gidiş</option>
+								<option value="GidişDönüş">Gidiş-Dönüş</option>
+							  </select>
+							</div>
+							<button id="ara" onclick="window.location.href='bilet.html'">Seferleri Listele</button>
+						  </div>
+					  
+						  <script>
+							const nerdenSelect = document.getElementById("nerden");
+							const nereyeSelect = document.getElementById("nereye");
+							const tarihSelect = document.getElementById("tarih");
+							const otobusSelect = document.getElementById("otobus");
+							const turSelect = document.getElementById("tur");
+						  
+							turSelect.addEventListener("change", () => {
+							  if (turSelect.value === "GidişDönüş") {
+								const returnFields = document.createElement("div");
+								returnFields.classList.add("field");
+								returnFields.innerHTML = `
+								  <label for="return-tarih">Dönüş Tarihi:</label>
+								  <input type="date" id="return-tarih" min="${tarihSelect.value}">
+								`;
+								context.insertBefore(returnFields, ara);
+						  
+								const returnOtobusSelect = document.createElement("select");
+								returnOtobusSelect.id = "return-otobus";
+								returnOtobusSelect.innerHTML = `
+								  <option value="Yarın">Yarın</option>
+								`;
+								returnFields.appendChild(returnOtobusSelect);
+							  } else {
+								const returnFields = document.querySelector("#context .field:last-child");
+								returnFields.remove();
+							  }
+							});
+						  
+							// Aynı şehirlerin seçilmesini engelleme kontrolü
+							nerdenSelect.addEventListener("change", () => {
+							  if (nerdenSelect.value === nereyeSelect.value) {
+								alert("Lütfen farklı şehirler seçin.");
+								nerdenSelect.value = ""; // Seçimi temizle
+							  }
+							});
+						  
+							nereyeSelect.addEventListener("change", () => {
+							  if (nerdenSelect.value === nereyeSelect.value) {
+								alert("Lütfen farklı şehirler seçin.");
+								nereyeSelect.value = ""; // Seçimi temizle
+							  }
+							});
+						  </script>
+										
 										
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-							
-					
-				</div>
-			</div>
-		</div>
+		
 	</header>
 
 	
@@ -244,6 +286,8 @@
 			</div>
 			<div class="row">
 
+		
+				</script>
 				<div class="col-lg-4 col-md-4 col-sm-6">
 					<a href="images/img_1.jpg" class="fh5co-card-item image-popup">
 						<figure>
